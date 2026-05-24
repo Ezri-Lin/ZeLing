@@ -1,80 +1,53 @@
 # ZeLing
 
-ZeLing is a private macOS voice productivity app for turning spoken intent into clean text, structured prompts, and target-ready output. It is built for fast daily use: trigger a shortcut, speak naturally, and let ZeLing handle transcription, prompt shaping, target context, and paste/writeback.
+ZeLing 是一款 macOS 语音效率工具。按下快捷键，说出想法，ZeLing 会把自然口语整理成可直接使用的文字、提示词或改写结果，并自动送到当前应用中。
 
-This repository is not an open-source distribution. Source access, builds, and test packages are maintained privately by the author.
+它适合写作、整理想法、向 AI 提问、回复消息、编辑选中文本，以及把零散口述快速变成清晰输出。
 
-## What ZeLing Does
+## 核心能力
 
-- Voice Input: dictate into the current app with optional cleanup, translation, formatting, and paste/writeback.
-- Voice-to-Prompt: turn rough spoken intent into polished prompts for AI tools such as ChatGPT, Notion AI, Mail, Obsidian, and other configured Targets.
-- Universal Mode: capture selected text plus voice instructions for context-aware rewrite or transformation.
-- Target and Scene context: keep output rules, terms, tone, and destination-specific constraints separate from raw dictation.
-- Local history and diagnostics: retain recent runs, recordings, and redacted local logs for debugging without a hosted account system.
-- Menu bar and HUD workflow: run from global shortcuts with lightweight recording feedback instead of forcing the main window into the foreground.
+- 语音输入：把口述内容整理成干净、自然、可直接粘贴的文字。
+- 语音生成提示词：把粗略想法改写成结构清楚、适合 AI 工具使用的 Prompt。
+- 选中文本改写：选中一段文字后，通过语音说明要如何修改、总结、翻译或润色。
+- 场景化输出：为不同应用、目标和写作场景保留不同的表达习惯与格式偏好。
+- 快捷键工作流：全局快捷键开始和结束录音，不打断当前窗口。
+- 本地历史：保留最近的语音记录和输出结果，方便回看与复用。
 
-## Current Distribution Model
+## 使用方式
 
-ZeLing is currently distributed as private macOS test builds only.
+1. 下载并打开 ZeLing。
+2. 按照系统提示授予麦克风、辅助功能等权限。
+3. 设置常用快捷键。
+4. 在任意应用中按下快捷键开始说话。
+5. 再次按下快捷键结束，ZeLing 会处理内容并输出到当前应用。
 
-- No public source release.
-- No public package registry release.
-- Testers receive a signed or ad-hoc signed `.app.zip` build artifact.
-- Cloud ASR/LLM traffic goes directly from the tester's device to the configured provider; ZeLing does not operate a hosted model proxy in the current test build.
+## 适合场景
 
-## Test Build Contents
+- 在聊天、邮件、文档中快速输入长段文字。
+- 把一句粗略需求变成更清晰的 AI 提示词。
+- 对选中的文本进行翻译、改写、总结或扩写。
+- 把会议想法、产品思路、代码需求快速整理成结构化内容。
+- 减少手动打字和反复复制粘贴。
 
-A test package contains:
+## 下载
 
-- `ZeLing.app`
-- bundled UI audio cues for recording start/stop feedback
-- bundled local runtime resources required by the packaged app
-- app metadata, icons, and notices required for local testing
+当前 ZeLing 以 macOS 应用包形式提供下载。请在本页面的 Releases 或作者提供的下载入口获取最新版。
 
-It does not contain developer logs, local settings, `.env`, secrets, or source control metadata.
+> 源代码暂不公开。本仓库仅作为项目介绍与下载入口使用。
 
-## Local Build
+## 系统要求
 
-Use the existing local packaging script:
+- macOS 14 或更新版本
+- 麦克风权限
+- 辅助功能权限，用于把结果写回当前应用
+- 可用的语音识别和 AI 服务配置
 
-```bash
-./scripts/build_app.sh
-```
+## 隐私说明
 
-The app bundle is written to:
+ZeLing 运行在你的 Mac 上。语音识别和 AI 处理会根据你的配置发送到对应服务商；ZeLing 当前不提供自有云端模型代理。
 
-```text
-dist/ZeLing.app
-```
+本地历史、设置和运行记录保存在本机。使用前请根据自己的工作环境确认所选服务商的数据与隐私政策。
 
-To create a tester zip without writing to the protected `releases/` directory:
+## 状态
 
-```bash
-cd dist
-ditto -c -k --sequesterRsrc --keepParent ZeLing.app ~/Downloads/ZeLing-TestBuild.app.zip
-```
-
-## Validation Before Sharing
-
-Run the narrowest useful checks for the change being packaged. For a general smoke package:
-
-```bash
-python3 scripts/polish_wood_ui_tones.py
-plutil -lint App/VoxPrompt.xcodeproj/project.pbxproj
-./scripts/build_app.sh
-```
-
-Then launch the packaged app on a real macOS desktop and verify:
-
-- microphone permission flow
-- global shortcuts
-- Voice Input start/stop cue playback
-- Voice-to-Prompt generation path
-- paste/writeback behavior in at least one target app
-- Settings > System recording cue toggle
-
-## Repository Notes
-
-The current product name is `ZeLing`. Some legacy paths, bundle identifiers, and historical files still use `VoxPrompt`; those names are preserved until a deliberate migration is performed.
-
-Do not publish this repository as open source without an explicit release and licensing decision.
+ZeLing 仍在测试阶段，功能和界面会持续调整。欢迎通过作者提供的渠道反馈问题和使用感受。
